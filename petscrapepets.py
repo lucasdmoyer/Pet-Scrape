@@ -38,7 +38,7 @@ def buildplacesdic():
 #gets the number of results. Remember I need to divide by 100 to get pages
 def getnumresults(city):
     search_url = 'http://' + city + '/search/rea'
-    #search_url = 'http://auburn.craigslist.org/search/rea'
+    #search_url = 'http://auburn.craigslist.org/search/pas'
     source_code = requests.get(search_url)
     html_doc = source_code.text
     soup = BeautifulSoup(html_doc, 'html.parser')
@@ -52,13 +52,13 @@ def getnumresults(city):
 
 #appends a citydic.csv file that makes a table of title, link, price
 def appendsearchcity(city):
-    with open('citydic.csv', 'a') as newFile:
+    with open('petsdic.csv', 'a') as newFile:
         writer = csv.writer(newFile)
         #entries = float(getnumresults(city))
         #pages = int(entries)/100 
         #changing the range from pages to 25
         for x in range(0 ,25):
-            search_url = 'http://' + city + '/search/rea?s=' + str(x * 100)
+            search_url = 'http://' + city + '/search/pet?s=' + str(x * 100)
             source_code = requests.get(search_url)
             html_doc = source_code.text
             soup = BeautifulSoup(html_doc, 'html.parser')
@@ -87,7 +87,7 @@ def appendsearchcity(city):
 #buils a citydic.csv file that makes a table of title, link, price
 def beginsearchcity():
     city = 'auburn.craigslist.org'
-    with open('citydic.csv', 'w') as csvfile:
+    with open('petsdic.csv', 'w') as csvfile:
         fieldnames = ['title', 'link', 'price']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',', lineterminator='\n')
         writer.writeheader()
@@ -96,7 +96,7 @@ def beginsearchcity():
         pages = entries/100
         pages = int(pages)
         for x in range(0 ,pages):
-            search_url = 'http://' + city + '/search/rea?s=' + str(x * 100)
+            search_url = 'http://' + city + '/search/pet?s=' + str(x * 100)
             source_code = requests.get(search_url)
             html_doc = source_code.text
             soup = BeautifulSoup(html_doc, 'html.parser')
@@ -132,8 +132,8 @@ def allcsvs():
                 print(row[0])
                 appendsearchcity(row[1])
 
-buildplacesdic()
-#beginsearchcity()
+#buildplacesdic()
+beginsearchcity()
 allcsvs()
 
 
